@@ -3,29 +3,10 @@
   become: true
   tasks: 
 
-  - name: update repository index
-    ansible.builtin.apt:
-      update_cache: yes
-    when: ansible_distribution == "Ubuntu"
-
   - name: remove apache & php
     ansible.builtin.apt:
       name: 
-        - apache2
-        - libapache2-mod-php
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
       state: absent
-    when: ansible_distribution == "Ubuntu"
-
-  - name: update repository index
-    ansible.builtin.dnf:
       update_cache: yes
-    when: ansible_distribution == "Fedora"
-
-  - name: remove apache & php
-    ansible.builtin.dnf:
-      name: 
-        - httpd
-        - php
-      state: absent
-    when: ansible_distribution == "Fedora"
-

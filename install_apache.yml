@@ -3,30 +3,11 @@
   become: true
   tasks: 
 
-  - name: update repository index (Ubuntu)
-    ansible.builtin.apt:
-      update_cache: yes
-    when: ansible_distribution == "Ubuntu"
-
-  - name: install apache & php (Ubuntu)
-    ansible.builtin.apt:
+  - name: install apache & php
+    ansible.builtin.package:
       name: 
-        - apache2
-        - libapache2-mod-php
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
       state: latest
-    when: ansible_distribution == "Ubuntu"
-
-  - name: update repository index (Fedora)
-    ansible.builtin.dnf:
       update_cache: yes
-    when: ansible_distribution == "Fedora"
-
-  - name: install apache & php (Fedora)
-    ansible.builtin.dnf:
-      name: 
-        - httpd
-        - php
-      state: latest
-    when: ansible_distribution == "Fedora"
-
 
