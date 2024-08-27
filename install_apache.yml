@@ -8,15 +8,11 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
-  - name: install apache2 package (Ubuntu)
+  - name: install apache & php (Ubuntu)
     ansible.builtin.apt:
-      name: apache2
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-
-  - name: install support for php (Ubuntu)
-    ansible.builtin.apt:
-      name: libapache2-mod-php
+      name: 
+        - apache2
+        - libapache2-mod-php
       state: latest
     when: ansible_distribution == "Ubuntu"
 
@@ -25,15 +21,12 @@
       update_cache: yes
     when: ansible_distribution == "Fedora"
 
-  - name: install httpd package (Fedora)
+  - name: install apache & php (Fedora)
     ansible.builtin.dnf:
-      name: httpd
+      name: 
+        - httpd
+        - php
       state: latest
     when: ansible_distribution == "Fedora"
 
-  - name: install support for php (Fedora)
-    ansible.builtin.dnf:
-      name: php
-      state: latest
-    when: ansible_distribution == "Fedora"
 

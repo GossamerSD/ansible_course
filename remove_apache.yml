@@ -8,15 +8,11 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
-  - name: remove apache2 package
+  - name: remove apache & php
     ansible.builtin.apt:
-      name: apache2
-      state: absent
-    when: ansible_distribution == "Ubuntu"
-
-  - name: remove support for php
-    ansible.builtin.apt:
-      name: libapache2-mod-php
+      name: 
+        - apache2
+        - libapache2-mod-php
       state: absent
     when: ansible_distribution == "Ubuntu"
 
@@ -25,14 +21,11 @@
       update_cache: yes
     when: ansible_distribution == "Fedora"
 
-  - name: remove httpd package
+  - name: remove apache & php
     ansible.builtin.dnf:
-      name: httpd
+      name: 
+        - httpd
+        - php
       state: absent
     when: ansible_distribution == "Fedora"
 
-  - name: remove support for php
-    ansible.builtin.dnf:
-      name: php
-      state: absent
-    when: ansible_distribution == "Fedora"
