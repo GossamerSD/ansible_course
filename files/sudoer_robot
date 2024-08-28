@@ -1,0 +1,2 @@
+# Managed by Ansible
+robot ALL=(ALL) NOPASSWD: ALL
