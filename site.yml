@@ -29,8 +29,46 @@
         - libapache2-mod-php
     when: ansible_distribution == "Ubuntu"
 
-  - name: copy html file
+  - name: install apache on web servers
+    tags: apache,fedora
+    ansible.builtin.dnf:
+      name:
+        - httpd
+        - php
+    when: ansible_distribution == "Fedora"
+
+  - name: ensure apache is running (Ubuntu)
     tags: apache,ubuntu
+    ansible.builtin.service:
+      name: apache2
+      state: started
+    when: ansible_distribution == "Ubuntu"
+
+  - name: ensure apache is running (Fedora)
+    tags: apache,fedora
+    ansible.builtin.service:
+      name: httpd
+      state: started
+    when: ansible_distribution == "Fedora"
+
+  - name: change email address for admin
+    tags: apache,fedora
+    ansible.builtin.lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin user@somewhere.com
+    when: ansible_distribution == "Fedora"
+    register: httpd
+
+  - name: restart httpd (fedora)
+    tags: apache,fedora
+    ansible.builtin.service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+
+  - name: copy html file
+    tags: apache
     ansible.builtin.copy:
       src: default_site.html
       dest: /var/www/html/index.html
