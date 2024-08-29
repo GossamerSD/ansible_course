@@ -1,0 +1,20 @@
+- name: create user
+  tags: always
+  ansible.builtin.user:
+    name: robot
+    groups: root
+
+- name: add sudoers file
+  tags: always
+  ansible.builtin.copy:
+    src: sudoer_robot
+    dest: /etc/sudoers.d/robot
+    owner: root
+    group: root
+    mode: 0440
+
+- name: add ssh key for robot user
+  tags: always
+  ansible.builtin.authorized_key:
+    user: robot
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINPoXkJf6Rmzm5gk1POJUDSQKfuMTbwuzgTEAx2mVdK3 rodney@ubuntu-ws"
